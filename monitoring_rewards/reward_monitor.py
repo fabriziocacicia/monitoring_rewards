@@ -42,3 +42,9 @@ class RewardMonitor:
         :return: a transducer-compatible trace step
         """
         return self.obs_to_trace_step(observation)
+
+    def reset(self):
+        """
+        Resets the monitor to its initial state.
+        """
+        self.reward_transducer.reset()

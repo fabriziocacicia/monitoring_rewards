@@ -94,6 +94,18 @@ class RewardTransducer(SymbolicDFA):
 
         return False
 
+    def _clear_trace(self):
+        """
+        Empty the trace.
+        """
+        self.trace = []
+
+    def reset(self):
+        """
+        Resets the transducer to its initial state.
+        """
+        self._clear_trace()
+
     def get_reward(self, trace) -> Reward:
         """
         Compute the reward given a trace
