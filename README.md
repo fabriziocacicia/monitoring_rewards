@@ -86,8 +86,8 @@ monitoring_specification = MonitoringSpecification(
     ltlf_formula=ltlf_formula,
     r=0,
     c=-1,
-    s=1,
-    f=-100
+    s=0,
+    f=0
 )
 
 # We define a function that map environment's observations into trace steps
