@@ -55,10 +55,7 @@ def main():
         total_reward += reward
     print("Total reward", total_reward)
 
-    multi_reward_monitor = MultiRewardMonitor(
-        monitoring_specifications=monitoring_specifications,
-        obs_to_trace_step=obs_to_trace_step
-    )
+    multi_reward_monitor.reset()
 
     failing_trace = [0, 0.1, 0.2, 0, 0.3, 0.1, 0.4]
     total_reward = 0
@@ -69,10 +66,7 @@ def main():
         total_reward += reward
     print("Total reward", total_reward)
 
-    multi_reward_monitor = MultiRewardMonitor(
-        monitoring_specifications=monitoring_specifications,
-        obs_to_trace_step=obs_to_trace_step
-    )
+    multi_reward_monitor.reset()
 
     goal_trace = [0, 0.1, 0.2, 0, 0.6, 0.1, 0.4]
     total_reward = 0

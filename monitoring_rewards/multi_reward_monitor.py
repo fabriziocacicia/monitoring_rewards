@@ -25,3 +25,10 @@ class MultiRewardMonitor:
             total_reward += reward
             total_is_perm = total_is_perm or is_perm
         return total_reward, total_is_perm
+
+    def reset(self):
+        """
+        Reset the monitor to its initial state.
+        """
+        for monitor in self.monitors:
+            monitor.reset()
