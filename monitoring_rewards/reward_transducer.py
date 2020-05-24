@@ -1,8 +1,11 @@
 from typing import Sequence
 
+import graphviz
 from flloat.parser.ltlf import LTLfParser
 from pythomata.core import SymbolType
 from pythomata.impl.symbolic import SymbolicDFA
+from sympy import Symbol
+from sympy.logic.boolalg import And, Or, Not
 from sympy.logic.boolalg import BooleanAtom
 
 from monitoring_rewards.core import Reward, TraceStep
@@ -33,6 +36,7 @@ class RewardTransducer(SymbolicDFA):
         self.s = s
         self.f = f
 
+        self.output_function = self._build_output_function()
         self.trace: Sequence[SymbolType] = []
 
     def _init_symbolic_dfa(self, ltlf_formula: str):
@@ -127,3 +131,74 @@ class RewardTransducer(SymbolicDFA):
             return self.r
         else:
             return self.c
+
+    def _build_output_function(self):
+        trace = []
+        output_function = {}
+
+        def explore_node(state):
+            transitions = self.get_transitions_from(state)
+            for transition in transitions:
+                from_state, guard, to_state = transition
+
+                if isinstance(guard, BooleanAtom):
+                    trace.append({})
+                if isinstance(guard, (And, Or)):
+                    trace_step = {}
+                    for symbol in guard.args:
+                        if isinstance(symbol, Symbol):
+                            trace_step[str(symbol)] = True
+                        if isinstance(symbol, Not):
+                            trace_step[str(symbol.args[0])] = False
+                    trace.append(trace_step)
+
+                if isinstance(guard, Symbol):
+                    trace.append({str(guard): True})
+
+                if isinstance(guard, Not):
+                    trace.append({str(guard.args[0]): False})
+
+                if self.is_state_perm(to_state):
+                    if self.parsed_formula.truth(trace, 0):
+                        output_function[from_state, guard] = self.s
+                    else:
+                        output_function[from_state, guard] = self.f
+                else:
+                    if self.parsed_formula.truth(trace, 0):
+                        output_function[from_state, guard] = self.r
+                    else:
+                        output_function[from_state, guard] = self.c
+
+                if from_state != to_state:
+                    explore_node(to_state)
+                else:
+                    trace.pop()
+
+            if len(trace) > 0:
+                trace.pop()
+
+        explore_node(self.initial_state)
+
+        return output_function
+
+    def to_graphviz(self) -> graphviz.Digraph:
+        graph = graphviz.Digraph(format="svg")
+        graph.node("fake", style="invisible")
+        for state in self.states:
+            if state == self.initial_state:
+                if state in self.accepting_states:
+                    graph.node(str(state), root="true", shape="doublecircle")
+                else:
+                    graph.node(str(state), root="true")
+            elif state in self.accepting_states:
+                graph.node(str(state), shape="doublecircle")
+            else:
+                graph.node(str(state))
+
+        graph.edge("fake", str(self.initial_state), style="bold")
+
+        for (start, guard, end) in self.get_transitions():
+            guard = str(guard) + ' / ' + str(self.output_function[start, guard])
+            graph.edge(str(start), str(end), label=str(guard))
+
+        return graph
