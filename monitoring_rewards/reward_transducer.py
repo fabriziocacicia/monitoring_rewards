@@ -15,7 +15,7 @@ class RewardTransducer(SymbolicDFA):
 
     def __init__(self, ltlf_formula: str, r, c, s, f):
         """
-        :param ltlf_formula: A fflloat-compatible LTLf formula
+        :param ltlf_formula: A flloat-compatible LTLf formula
         :param r: (reward) given to the agent when the formula is temporarily true in the current
         partial trace
         :param c: (cost) given to the agent when the formula is temporarily false in the current

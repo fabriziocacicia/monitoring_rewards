@@ -6,9 +6,9 @@ An implementation of Monitoring Rewards based on the paper
 It is developed to be easily integrated with [OpenAI Gym](https://gym.openai.com/) environments.
 
 ## Install 
-You need to install the python [fflloat](https://github.com/whitemech/flloat) library in order to use this library.
+You need to install the python [flloat](https://github.com/whitemech/flloat) library in order to use this library.
 
-* First install fflloat
+* First install flloat
     ```shell script
     pip install flloat
     ```
