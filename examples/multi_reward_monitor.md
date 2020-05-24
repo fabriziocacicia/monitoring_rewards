@@ -1,7 +1,9 @@
-from monitoring_rewards.core import TraceStep
-from monitoring_rewards.monitoring_specification import MonitoringSpecification
-from monitoring_rewards.multi_reward_monitor import MultiRewardMonitor
-from monitoring_rewards.reward_monitor import RewardMonitor
+# Multi Reward Monitor example
+`multi_reward_monitor.py`
+```python
+from monitoring_rewards import TraceStep
+from monitoring_rewards import MonitoringSpecification
+from monitoring_rewards import MultiRewardMonitor
 
 
 def obs_to_trace_step(observation) -> TraceStep:
@@ -77,5 +79,7 @@ def main():
         total_reward += reward
     print("Total reward", total_reward)
 
+
 if __name__ == '__main__':
     main()
+```
