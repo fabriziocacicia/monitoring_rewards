@@ -182,3 +182,23 @@ while not done:
     done = done | is_perm
 
 ```
+
+### Train on multiple episodes
+When you train an agent on multiple episodes you will reset the environment every time an episode end.
+
+You can do the same with a Monitor:
+```python
+for episode in range(num_episodes):
+    while not done:
+        action = agent.act()
+    
+        observation, _, done, info = env.step(action) 
+    
+        reward, is_perm = monitor(observation)
+        
+        # To stop the episode earlier
+        done = done | is_perm
+    
+    env.reset()
+    monitor.reset()
+```
