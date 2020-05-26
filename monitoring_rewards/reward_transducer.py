@@ -141,6 +141,9 @@ class RewardTransducer(SymbolicDFA):
             for transition in transitions:
                 from_state, guard, to_state = transition
 
+                if (from_state, guard) in output_function.keys():
+                    return
+
                 if isinstance(guard, BooleanAtom):
                     trace.append({})
                 if isinstance(guard, (And, Or)):
