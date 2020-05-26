@@ -184,7 +184,7 @@ while not done:
 ```
 
 ### Train on multiple episodes
-When you train an agent on multiple episodes you will reset the environment every time an episode end.
+When you train an agent on multiple episodes you usually reset the environment every time an episode end.
 
 You can do the same with a Monitor:
 ```python
