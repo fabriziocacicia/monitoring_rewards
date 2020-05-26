@@ -1,6 +1,6 @@
 ## [0.0.4] - 2020-05-26
 ### Fixed
-- A bug that prevent the generation of the image of cyclic graphs
+- A bug that prevents the generation of the image for cyclic graphs
 
 ## [0.0.3] - 2020-05-25
 ### Changed
